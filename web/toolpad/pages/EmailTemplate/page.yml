@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mui/toolpad/v0.10.0/docs/schemas/v1/definitions.json#properties/Page
+
+apiVersion: v1
+kind: page
+spec:
+  title: Email Template
+  display: shell
+  authorization:
+    allowAll: true
+  content:
+    - component: Paper
+      name: paper
+      props:
+        elevation: 4
+      children:
+        - component: PageRow
+          name: pageRow
+          props:
+            justifyContent: 0
+            gap: 0
+          children:
+            - component: Button
+              name: button1
+              layout:
+                columnSize: 0.3080903015972062
+                horizontalAlign: center
+              props:
+                content: NEW
+                variant: outlined
+                disabled: false
+                onClick:
+                  $$navigationAction:
+                    page: EmailTemplate
+                    parameters: {}
+            - component: Button
+              name: button2
+              layout:
+                columnSize: 0.4083800643163551
+                horizontalAlign: center
+              props:
+                content: DELETE
+            - component: Button
+              name: button
+              layout:
+                columnSize: 2.2835296340864386
+              props:
+                content: REFRESH
+                color: primary
+                variant: outlined
+                fullWidth: false
+    - component: Paper
+      name: paper1
+      children:
+        - component: Text
+          name: text
+          props:
+            value: Active Email Template
+    - component: Paper
+      name: paper2
+      children:
+        - component: DataGrid
+          name: dataGrid

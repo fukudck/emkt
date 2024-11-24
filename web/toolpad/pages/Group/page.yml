@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mui/toolpad/v0.10.0/docs/schemas/v1/definitions.json#properties/Page
+
+apiVersion: v1
+kind: page
+spec:
+  title: pageGroups
+  display: shell
+  authorization:
+    allowAll: true
+  maxWidth: lg
+  content:
+    # Phần nút chức năng
+    - component: PageRow
+      name: toolbar
+      props:
+        gap: 0
+      children:
+        - component: Button
+          name: backButton
+          props:
+            content: BACK
+            variant: outlined
+          layout:
+            columnSize: 0.23066427433828215
+        - component: Button
+          name: saveButton
+          props:
+            content: SAVE
+            variant: contained
+          layout:
+            columnSize: 0.22716936109073246
+        - component: Button
+          name: newGroupButton
+          props:
+            content: +NEW GROUP
+            variant: contained
+            color: primary
+          layout:
+            columnSize: 2.5421663645709853
+
+    # Tiêu đề chính
+    - component: Paper
+      name: paper1
+      children:
+        - component: Text
+          name: text
+          props:
+            value: Group Management
+            variant: h6
+    - component: Paper
+      name: paper
+      children:
+        - component: DataGrid
+          name: dataGrid

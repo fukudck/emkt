@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mui/toolpad/v0.10.0/docs/schemas/v1/definitions.json#properties/Page
+
+apiVersion: v1
+kind: page
+spec:
+  alias:
+    - LiOYXaD
+  title: Pag1
+  displayName: Dashboard
+  content:
+    - component: Text
+      name: text
+      props:
+        value: Email Overview
+        variant: h5
+        mode: markdown
+      layout:
+        horizontalAlign: start
+    - component: DataGrid
+      name: dataGrid
+      props:
+        rowsSource: prop
+        dataProviderId: dataProvider.ts:default
+        density: standard
+        loading: false
+        hideToolbar: false
+      layout:
+        columnSize: 1.077905471704934

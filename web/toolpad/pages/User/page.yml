@@ -3,5 +3,7 @@
 apiVersion: v1
 kind: page
 spec:
-  id: LiOYXaD
-  title: Default page
+  title: User
+  display: shell
+  authorization:
+    allowAll: true
