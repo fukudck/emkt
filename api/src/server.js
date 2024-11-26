@@ -1,11 +1,19 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const db = require('./config/db');
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 const app = express();
+
+
 app.use(express.json()); // Sử dụng express.json() thay vì body-parser
 app.use(cors());
-
+app.use('/api/auth', authRoutes);  
+app.use('/api/users', userRoutes);
+app.use('/api/contacts', contactRoutes);
 
 // Xử lý các lỗi không tìm thấy route (404)
 app.use((req, res, next) => {
