@@ -25,7 +25,7 @@ const Sidebar = () => {
     { text: 'Contact', icon: <ContactMailIcon />, path: '/contact' },
     { text: 'Group', icon: <GroupsIcon />, path: '/group' },
     { text: 'Quản lý chiến dịch', icon: <CampaignIcon />, path: '/campaign-management' },
-    { text: 'Email Template', icon: <EmailIcon />, path: '/email-template' },
+    { text: 'Mẫu Email', icon: <EmailIcon />, path: '/email-template' },
     { text: 'Email Marketing', icon: <MailLockIcon />, path: '/email-marketing' },
     { text: 'Quản lý người dùng', icon: <PeopleIcon />, path: '/user-management' },
   ];

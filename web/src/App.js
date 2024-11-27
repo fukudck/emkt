@@ -8,7 +8,8 @@ import UserManagement from './components/Dashboard/UserManagement';
 import CampaignManagement from './components/Dashboard/CampaignManagement';
 import Header from './components/Layout/Header';
 import Sidebar from './components/Layout/Sidebar';
-import EmailTemplate from './components/Dashboard/EmailTemplate';
+import EmailTemplateEdit from './components/Dashboard/EmailTemplateEdit';
+import EmailTemplateManagement from './components/Dashboard/EmailTemplateManagement';
 import Contact from './components/Dashboard/Contact';
 import Group from './components/Dashboard/Group';
 import EmailMarketing from './components/Dashboard/EmailMarketing';
@@ -84,7 +85,21 @@ function App() {
                 <Sidebar />
                 <div style={{ flex: 1 }}>
                   <Header />
-                  <EmailTemplate />
+                  <EmailTemplateManagement />
+                </div>
+              </div>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/email-template/editor"
+          element={
+            <ProtectedRoute>
+              <div style={{ display: 'flex' }}>
+                <Sidebar />
+                <div style={{ flex: 1 }}>
+                  <Header />
+                  <EmailTemplateEdit />
                 </div>
               </div>
             </ProtectedRoute>
