@@ -49,6 +49,7 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
     try {
       const token = Cookies.get('token');
       const response = await axios.get("/contacts", {headers: {
+        
           'Authorization': `Bearer ${token}`, // Định rõ kiểu dữ liệu gửi đi
         }});
       setContacts(response.data);
@@ -70,11 +71,13 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
     }
   
     try {
+      const token = Cookies.get("token");
       const response = await axios.post(
         "contacts",
         newContact, // Dữ liệu gửi lên
         {
           headers: {
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json", // Đảm bảo định dạng JSON
           },
         }
@@ -107,7 +110,7 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Authorization": `Bearer ${token}`,
           },
         }
       );
