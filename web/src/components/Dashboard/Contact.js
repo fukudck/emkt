@@ -14,6 +14,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
@@ -58,6 +59,7 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleEditClose = () => setEditOpen(false);
 
   // Xử lý thêm liên hệ mới
   const handleAddContact = async () => {
@@ -92,34 +94,29 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
       }
     }
   };
-  // edit
-    const handleEdit = (contactId) => {
-      const contact = contacts.find((c) => c.contact_id === contactId);
-      if (contact) {
-        setEditContact(contact);
-        setEditOpen(true);
-      }
-    };
-  
-  const handleUpdateContact = async () => {
-    if (!editContact.name || !editContact.email || !editContact.phone) {
-      alert("Vui lòng điền đủ thông tin liên hệ!");
-      return;
-    }
-
+  const handleEditClick = (contact) => {
+    setEditContact(contact);
+    setEditOpen(true);
+  };
+  const handleEditContact = async () => {
     try {
       const token = Cookies.get("token");
-      await axios.put(`/contacts/${editContact.contact_id}`, editContact, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      fetchContacts();
-      setEditOpen(false);
+      await axios.put(
+        `contacts/${editContact.contact_id}`,
+        editContact,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchContacts(); 
+      alert("Cập nhật thành công.");// Cập nhật lại danh sách
+      setEditOpen(false); // Đóng hộp thoại
     } catch (error) {
       console.error("Error updating contact:", error);
-      alert("Không thể cập nhật liên hệ!");
+      alert("Cập nhật liên hệ thất bại.");
     }
   };
 
@@ -174,7 +171,7 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
   return (
     <Box
       sx={{
-        maxWidth: "900px",
+        maxWidth: "100%",
         margin: "20px auto",
         padding: 3,
         border: "1px solid #ddd",
@@ -311,7 +308,7 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
                 <TableCell align="center">
                   {contact.is_unsubscribed ? "Ngừng đăng ký" : "Đang hoạt động"}
                 </TableCell>
-                <TableCell align="center"><><EditIcon onClick={() => handleEdit(contact.contact_id)} style={{ cursor: 'pointer', marginRight: 8 }}/><DeleteIcon onClick={() => handleDelete(contact.contact_id)} style={{ cursor: 'pointer', marginRight: 8 }} /></></TableCell>
+                <TableCell align="center"><><EditIcon onClick={() => handleEditClick(contact)} style={{ cursor: 'pointer', marginRight: 8 }}/><DeleteIcon onClick={() => handleDelete(contact.contact_id)} style={{ cursor: 'pointer', marginRight: 8 }} /></></TableCell>
               </TableRow>
             ))}
             {filteredContacts.length === 0 && (
@@ -362,7 +359,50 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
             Thêm
           </Button>
         </DialogActions>
-      </Dialog>
+          </Dialog>
+          <Dialog open={editOpen} onClose={() => setEditOpen(false)}>
+      <DialogTitle>Chỉnh sửa liên hệ</DialogTitle>
+      <DialogContent>
+        <TextField
+          label="Tên"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={editContact.name}
+          onChange={(e) =>
+            setEditContact({ ...editContact, name: e.target.value })
+          }
+        />
+        <TextField
+          label="Email"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={editContact.email}
+          onChange={(e) =>
+            setEditContact({ ...editContact, email: e.target.value })
+          }
+        />
+        <TextField
+          label="Số điện thoại"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={editContact.phone}
+          onChange={(e) =>
+            setEditContact({ ...editContact, phone: e.target.value })
+          }
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => setEditOpen(false)} color="secondary">
+          Hủy
+        </Button>
+        <Button onClick={handleEditContact} color="primary">
+          Cập nhật
+        </Button>
+      </DialogActions>
+    </Dialog>
     </Box>
   );
 };
