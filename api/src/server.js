@@ -5,6 +5,8 @@ const db = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const mailRoutes = require('./routes/mailRoutes');
+const campaignRoutes = require('./routes/campaignRoutes');
 
 const app = express();
 
@@ -14,6 +16,8 @@ app.use(cors());
 app.use('/api/auth', authRoutes);  
 app.use('/api/users', userRoutes);
 app.use('/api/contacts', contactRoutes);
+app.use('/api/mail', mailRoutes);
+app.use('/api/campaigns', campaignRoutes);
 
 // Xử lý các lỗi không tìm thấy route (404)
 app.use((req, res, next) => {

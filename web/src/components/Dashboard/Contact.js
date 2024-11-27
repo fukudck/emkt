@@ -23,7 +23,8 @@ import AddIcon from "@mui/icons-material/Add";
 import axios from "../../axios"; // Import axios
 import Cookies from "js-cookie";
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
+import EditIcon from '@mui/icons-material/Edit';
+const Contact = () => {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -40,6 +41,7 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
     email: "",
     phone: "",
   });
+  const token = Cookies.get('token');
   // Gọi API để lấy danh sách liên hệ
   useEffect(() => {
     fetchContacts();
@@ -47,7 +49,7 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
 
   const fetchContacts = async () => {
     try {
-      const token = Cookies.get('token');
+      
       const response = await axios.get("/contacts", {headers: {
           'Authorization': `Bearer ${token}`, // Định rõ kiểu dữ liệu gửi đi
         }});
@@ -75,6 +77,7 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
         newContact, // Dữ liệu gửi lên
         {
           headers: {
+            'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Đảm bảo định dạng JSON
           },
         }
@@ -107,7 +110,7 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Authorization": `Bearer ${token}`,
           },
         }
       );
@@ -304,7 +307,7 @@ import EditIcon from '@mui/icons-material/Edit';const Contact = () => {
                 <TableCell align="center">{contact.name}</TableCell>
                 <TableCell align="center">{contact.email}</TableCell>
                 <TableCell align="center">{contact.phone}</TableCell>
-                <TableCell align="center">{contact.created_at}</TableCell>
+                <TableCell align="center">{new Date(contact.created_at).toLocaleString()}</TableCell>
                 <TableCell align="center">
                   {contact.is_unsubscribed ? "Ngừng đăng ký" : "Đang hoạt động"}
                 </TableCell>
