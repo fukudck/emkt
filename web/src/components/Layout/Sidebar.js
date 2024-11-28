@@ -16,17 +16,15 @@ import EmailIcon from '@mui/icons-material/Email';
 import AddIcon from '@mui/icons-material/Add';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import GroupsIcon from '@mui/icons-material/Groups';
-import MailLockIcon from '@mui/icons-material/MailLock';
 
 
 const Sidebar = () => {
   const menuItems = [
     { text: 'Trang Chủ', icon: <HomeIcon />, path: '/home' },
-    { text: 'Contact', icon: <ContactMailIcon />, path: '/contact' },
-    { text: 'Group', icon: <GroupsIcon />, path: '/group' },
+    { text: 'Danh bạ', icon: <ContactMailIcon />, path: '/contact' },
+    { text: 'Nhóm', icon: <GroupsIcon />, path: '/group' },
     { text: 'Quản lý chiến dịch', icon: <CampaignIcon />, path: '/campaign-management' },
     { text: 'Mẫu Email', icon: <EmailIcon />, path: '/email-template' },
-    { text: 'Email Marketing', icon: <MailLockIcon />, path: '/email-marketing' },
     { text: 'Quản lý người dùng', icon: <PeopleIcon />, path: '/user-management' },
   ];
 

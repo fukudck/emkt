@@ -9,6 +9,7 @@ import CampaignManagement from './components/Dashboard/CampaignManagement';
 import Header from './components/Layout/Header';
 import Sidebar from './components/Layout/Sidebar';
 import EmailTemplateEdit from './components/Dashboard/EmailTemplateEdit';
+import CampaignModify from './components/Dashboard/CampaignDetails';
 import EmailTemplateManagement from './components/Dashboard/EmailTemplateManagement';
 import Contact from './components/Dashboard/Contact';
 import Group from './components/Dashboard/Group';
@@ -58,6 +59,20 @@ function App() {
                 <div style={{ flex: 1 }}>
                   <Header />
                   <UserManagement />
+                </div>
+              </div>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/campaign-details/:id"
+          element={
+            <ProtectedRoute>
+              <div style={{ display: 'flex' }}>
+                <Sidebar />
+                <div style={{ flex: 1 }}>
+                  <Header />
+                  <CampaignModify />
                 </div>
               </div>
             </ProtectedRoute>

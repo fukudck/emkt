@@ -152,6 +152,15 @@ const Campaign = () => {
           gap: 1,
         }}
       >
+        <IconButton
+          color="primary"
+          sx={{
+            backgroundColor: "#e3f2fd",
+            "&:hover": { backgroundColor: "#bbdefb" },
+          }}
+        >
+          <SearchIcon />
+        </IconButton>
         <TextField
           fullWidth
           variant="outlined"
@@ -189,7 +198,7 @@ const Campaign = () => {
             
             {email
                 .filter((email) =>
-                    email.subject.toLowerCase().includes(search.toLowerCase())
+                    email.name.toLowerCase().includes(search.toLowerCase())
                 )
                 .map((email, index) => (
                     <TableRow key={index}>

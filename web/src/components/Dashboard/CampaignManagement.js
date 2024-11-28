@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { useNavigate, useLocation } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
 import SearchIcon from "@mui/icons-material/Search";
@@ -27,25 +28,67 @@ const Campaign = () => {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [campaigns, setCampaigns] = useState([]);
+  const navigate = useNavigate();
+  const [newCampaign, setNewCampaign] = useState({
+    name: "",
+  });
   useEffect(() => {
     // Gọi API
-    const fetchCampaigns = async () => {
-      try {
-        const token = Cookies.get('token');
-        const response = await axios.get("/campaigns/get", {
-          headers: {
-            Authorization:
-              `Bearer ${token}`,
-          },
-        });
-        setCampaigns(response.data); // Cập nhật dữ liệu chiến dịch
-      } catch (error) {
-        console.error("Lỗi khi gọi API:", error);
-      }
-    };
+    
 
     fetchCampaigns();
   }, []);
+  const fetchCampaigns = async () => {
+    try {
+      const token = Cookies.get('token');
+      const response = await axios.get("/campaigns/get", {
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+        },
+      });
+      setCampaigns(response.data); // Cập nhật dữ liệu chiến dịch
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+    }
+  };
+  const handleAddCampaign = async () => {
+    // Kiểm tra dữ liệu nhập vào
+    if (!newCampaign.name) {
+      alert("Vui lòng điền đủ thông tin liên hệ!");
+      return;
+    }
+  
+    try {
+      const token = Cookies.get("token");
+      const response = await axios.post(
+        "/campaigns/add",
+        newCampaign, // Dữ liệu gửi lên
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json", // Đảm bảo định dạng JSON
+          },
+        }
+      );
+      // Cập nhật danh sách liên hệ
+      fetchCampaigns()
+      // Đặt lại dữ liệu liên hệ mới
+      setNewCampaign({ name: "", email: "", phone: "", is_unsubscribed: false });
+      // Đóng form
+      setOpen(false);
+    } catch (error) {
+      console.error("Error adding contact:", error);
+      if (error.response) {
+        alert(`Lỗi: ${error.response.data.message || "Không thể thêm !"}`);
+      } else {
+        alert("Lỗi không xác định khi thêm !");
+      }
+    }
+  };
+  const handleRowClick = (campaignId) => {
+    navigate(`/campaign-details/${campaignId}`);
+  };
 
   return (
     <Box
@@ -90,14 +133,7 @@ const Campaign = () => {
           marginBottom: 3,
         }}
       >
-        <Button
-          variant="contained"
-          color="secondary"
-          startIcon={<ArrowBackIcon />}
-          sx={{ textTransform: "none", fontWeight: "bold", padding: "6px 16px" }}
-        >
-          Trở về
-        </Button>
+        
         <Button
           variant="contained"
           color="success"
@@ -107,14 +143,7 @@ const Campaign = () => {
         >
           Thêm chiến dịch
         </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          endIcon={<SaveIcon />}
-          sx={{ textTransform: "none", fontWeight: "bold", padding: "6px 16px" }}
-        >
-          Lưu
-        </Button>
+        
       </Box>
 
       {/* Tìm kiếm */}
@@ -126,6 +155,15 @@ const Campaign = () => {
           gap: 1,
         }}
       >
+        <IconButton
+          color="primary"
+          sx={{
+            backgroundColor: "#e3f2fd",
+            "&:hover": { backgroundColor: "#bbdefb" },
+          }}
+        >
+          <SearchIcon />
+        </IconButton>
         <TextField
           fullWidth
           variant="outlined"
@@ -137,15 +175,7 @@ const Campaign = () => {
             borderRadius: "8px",
           }}
         />
-        <IconButton
-          color="primary"
-          sx={{
-            backgroundColor: "#e3f2fd",
-            "&:hover": { backgroundColor: "#bbdefb" },
-          }}
-        >
-          <SearchIcon />
-        </IconButton>
+        
       </Box>
 
       {/* Bảng */}
@@ -163,6 +193,9 @@ const Campaign = () => {
                 Trạng thái
               </TableCell>
               <TableCell align="left" sx={{ fontWeight: "bold" }}>
+                Bắt đầu lúc
+              </TableCell>
+              <TableCell align="left" sx={{ fontWeight: "bold" }}>
                 Tạo lúc
               </TableCell>
             </TableRow>
@@ -173,16 +206,30 @@ const Campaign = () => {
                 campaign.name.toLowerCase().includes(search.toLowerCase())
               )
               .map((campaign, index) => (
-                <TableRow key={index}>
-                  <TableCell align="left">{campaign.name}</TableCell>
-                  <TableCell align="left">{campaign.subject}</TableCell>
-                  <TableCell align="left">{campaign.status}</TableCell>
+                <TableRow
+                  key={index}
+                  onClick={() => handleRowClick(campaign.campaign_id)} // Chuyển hướng đến trang chi tiết
+                  style={{ cursor: 'pointer' }} // Thêm con trỏ chuột dạng pointer
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": {
+                      backgroundColor: "#f5f5f5", // Màu nền khi hover
+                    },
+                  }}
+                >
+                  <TableCell align="left">{campaign.name || "Chưa đặt tên"}</TableCell>
+                  <TableCell align="left">{campaign.subject || "-"}</TableCell>
+                  <TableCell align="left">{campaign.status || "-"}</TableCell>
                   <TableCell align="left">
-                    {new Date(campaign.created_at).toLocaleString()}
+                    {campaign.send_at ? new Date(campaign.send_at).toLocaleString() : "-"}
+                  </TableCell>
+                  <TableCell align="left">
+                    {campaign.created_at ? new Date(campaign.created_at).toLocaleString() : "-"}
                   </TableCell>
                 </TableRow>
               ))}
           </TableBody>
+
         </Table>
       </TableContainer>
 
@@ -195,19 +242,15 @@ const Campaign = () => {
             variant="outlined"
             fullWidth
             margin="normal"
-          />
-          <TextField
-            label="Mẫu Email"
-            variant="outlined"
-            fullWidth
-            margin="normal"
+            value={newCampaign.phone}
+            onChange={(e) => setNewCampaign({ ...newCampaign, name: e.target.value })}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} color="secondary">
             Hủy
           </Button>
-          <Button color="primary">Thêm</Button>
+          <Button onClick={handleAddCampaign} color="primary">Thêm</Button>
         </DialogActions>
       </Dialog>
     </Box>

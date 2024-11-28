@@ -1,13 +1,11 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, TextField, Avatar, Box } from "@mui/material";
+import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem,  Avatar, Box } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [searchTerm, setSearchTerm] = React.useState("");
   const navigate = useNavigate();
   const isAuthenticated = Cookies.get("token"); // Kiểm tra trạng thái đăng nhập
 
@@ -39,11 +37,7 @@ const Header = () => {
     handleClose();
   };
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    // Xử lý tìm kiếm ở đây
-    console.log("Tìm kiếm:", searchTerm);
-  };
+
 
   return (
     <AppBar position="static" sx={{ backgroundColor: '#ffffff', boxShadow: 'none' }}>
@@ -51,19 +45,7 @@ const Header = () => {
         <Typography variant="h6" sx={{ flexGrow: 1, color: '#4285f4', fontWeight: 'bold' }}>
           Ứng Dụng Của Tôi
         </Typography>
-        <form onSubmit={handleSearch} style={{ display: 'flex', alignItems: 'center', marginRight: '16px' }}>
-          <TextField
-            variant="outlined"
-            size="small"
-            placeholder="Tìm kiếm..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            sx={{ borderRadius: '20px', backgroundColor: '#f1f1f1' }}
-          />
-          <IconButton type="submit" sx={{ padding: '10px' }}>
-            <SearchIcon sx={{ color: '#4285f4' }} />
-          </IconButton>
-        </form>
+        
         <div>
           <IconButton
             size="large"
