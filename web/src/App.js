@@ -13,7 +13,7 @@ import CampaignModify from './components/Dashboard/CampaignDetails';
 import EmailTemplateManagement from './components/Dashboard/EmailTemplateManagement';
 import Contact from './components/Dashboard/Contact';
 import Group from './components/Dashboard/Group';
-import EmailMarketing from './components/Dashboard/EmailMarketing';
+
 
 function App() {
   const token = localStorage.getItem('token'); // Kiểm tra nếu người dùng đã đăng nhập
@@ -148,20 +148,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/email-marketing"
-          element={
-            <ProtectedRoute>
-              <div style={{ display: 'flex' }}>
-                <Sidebar />
-                <div style={{ flex: 1 }}>
-                  <Header />
-                  <EmailMarketing />
-                </div>
-              </div>
-            </ProtectedRoute>
-          }
-        />
+        
       </Routes>
     </Router>
   );
