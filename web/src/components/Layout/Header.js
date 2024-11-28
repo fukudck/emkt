@@ -43,7 +43,7 @@ const Header = () => {
     <AppBar position="static" sx={{ backgroundColor: '#ffffff', boxShadow: 'none' }}>
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1, color: '#4285f4', fontWeight: 'bold' }}>
-          Ứng Dụng Của Tôi
+          Email Marketing
         </Typography>
         
         <div>

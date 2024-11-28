@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography, Paper, Grid2 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -43,9 +44,11 @@ const HomePage = () => {
               },
             }}
           >
-            <Typography variant="h6" color="#34495e">
-              Quản lý người dùng
-            </Typography>
+            <Link to="/statistics" style={{ textDecoration: 'none' }}>
+              <Typography variant="h6" color="#34495e">
+                Thống kê Email
+              </Typography>
+            </Link>
           </Paper>
         </Grid2>
         <Grid2 item xs={12} sm={6} md={4}>
@@ -63,9 +66,11 @@ const HomePage = () => {
               },
             }}
           >
-            <Typography variant="h6" color="#34495e">
-              Quản lý chiến dịch
-            </Typography>
+            <Link to="/campaign-management" style={{ textDecoration: 'none' }}>
+              <Typography variant="h6" color="#34495e">
+                Quản lý chiến dịch
+              </Typography>
+            </Link>
           </Paper>
         </Grid2>
         <Grid2 item xs={12} sm={6} md={4}>
@@ -83,9 +88,11 @@ const HomePage = () => {
               },
             }}
           >
-            <Typography variant="h6" color="#34495e">
-              Gửi email marketing
-            </Typography>
+            <Link to="/email-template" style={{ textDecoration: 'none' }}>
+              <Typography variant="h6" color="#34495e">
+                Gửi email marketing
+              </Typography>
+            </Link>
           </Paper>
         </Grid2>
       </Grid2>

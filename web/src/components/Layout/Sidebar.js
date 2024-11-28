@@ -16,6 +16,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import AddIcon from '@mui/icons-material/Add';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import GroupsIcon from '@mui/icons-material/Groups';
+import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 
 
 const Sidebar = () => {
@@ -26,7 +27,7 @@ const Sidebar = () => {
     { text: 'Quản lý chiến dịch', icon: <CampaignIcon />, path: '/campaign-management' },
     { text: 'Mẫu Email', icon: <EmailIcon />, path: '/email-template' },
     { text: 'Quản lý người dùng', icon: <PeopleIcon />, path: '/user-management' },
-    { text: 'Thống kê', icon: <PeopleIcon />, path: '/statistics'},
+    { text: 'Thống kê', icon: <StackedBarChartIcon />, path: '/statistics'},
   ];
 
   return (
