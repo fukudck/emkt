@@ -7,6 +7,13 @@ import {
   FormControl,
   InputLabel,
   Select,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
   
 
 } from "@mui/material";
@@ -24,6 +31,7 @@ import { useParams } from "react-router-dom";
 
 const Campaign = () => {
   const [edited, setEdited] = useState(false);
+  const [allContacts, setAllContacts] = useState([]);
   const [groups, setGroups] = useState([]); 
   const [emails, setEmails] = useState([]);
   const [selectedGroups, setSelectedGroups] = useState([]); // Lưu các nhóm đã chọn
@@ -33,6 +41,7 @@ const Campaign = () => {
   const token = Cookies.get('token');
   useEffect(() => {
     // Hàm chung để gọi API
+    
     const fetchData = async (url, setter) => {
       try {
         
@@ -45,7 +54,6 @@ const Campaign = () => {
         if(setter === setCampaign) {
           setSelectedGroups(response.data.group_ids.split(',').map(id => parseInt(id, 10)));
         }
-        console.log(response.data)
         
       } catch (error) {
         console.log(`Lỗi khi gọi API: ${url}`, error);
@@ -62,18 +70,53 @@ const Campaign = () => {
     fetchData("/mail/get", setEmails); // Lấy danh sách email
     fetchData("/groups", setGroups); // Lấy nhóm
     
+    
 
   }, [id]); 
-  
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setEdited(true);
-    setSelectedGroups(
-      typeof value === "string" ? value.split(",") : value
-    );
+  useEffect(() => {
+    if (selectedGroups.length > 0) {  // Kiểm tra nếu có nhóm được chọn
+      getContactsForGroups();
+    }
+  }, [selectedGroups]); 
+  const getContactsForGroups = async () => {
+    const results = [];  // Mảng để lưu kết quả của từng API call
+    try {
+      for (const groupId of selectedGroups) {
+        // Gọi API cho từng phần tử trong selectedGroups
+        const response = await axios.get(`/groups/${groupId}/contacts`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        // Lưu kết quả vào mảng results
+        results.push(response.data);  // Giả sử response.data chứa dữ liệu bạn cần
+      }
+      const mergedContacts = results.reduce((acc, currentArray) => [...acc, ...currentArray], []);
+      setAllContacts(mergedContacts);
+    } catch (error) {
+      console.error("Có lỗi xảy ra khi gọi API:", error);
+    }
   };
+  
+  
+  
+  
+  const handleChange = (selectedValues) => {
+    // Đánh dấu là đã chỉnh sửa
+    setEdited(true);
+    if (!selectedValues || selectedValues.length === 0) {
+      setSelectedGroups(["Nope"]);
+      // Thực hiện các hành động khi không có giá trị
+    } else {
+      
+    
+      // Kiểm tra kiểu dữ liệu và xử lý tương ứng
+      setSelectedGroups(
+        Array.isArray(selectedValues) ? selectedValues : selectedValues.split(",") // Nếu là mảng, giữ nguyên; nếu là chuỗi, tách thành mảng
+      );
+    }
+  };
+  
   const handleUpdate = async () => {
     
   
@@ -308,7 +351,10 @@ const Campaign = () => {
           <Select
             multiple
             value={selectedGroups}
-            onChange={handleChange}
+            onChange={(e) => {
+              const selectedValues = e.target.value;
+              handleChange(selectedValues);  // Gọi hàm handleChange với giá trị được chọn
+            }}
             input={<OutlinedInput label="Name" />}
           >
             {groups.map((group) => (
@@ -321,7 +367,34 @@ const Campaign = () => {
             ))}
           </Select>
         </FormControl>
-        
+        <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="left" sx={{ fontWeight: "bold" }}>
+                Tên
+              </TableCell>
+              <TableCell align="left" sx={{ fontWeight: "bold" }}>
+                Địa chỉ mail
+              </TableCell>
+              <TableCell align="left" sx={{ fontWeight: "bold" }}>
+                SĐT
+              </TableCell>
+              
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {allContacts.map((contact, index) => (
+            <TableRow key={index}>
+              <TableCell align="left">{contact.name}</TableCell>
+              <TableCell align="left">{contact.email}</TableCell>
+              <TableCell align="left">{contact.phone}</TableCell>
+            </TableRow>
+          ))}
+          </TableBody>
+
+        </Table>
+      </TableContainer>
         
       </Box>
 
