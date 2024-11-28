@@ -105,7 +105,7 @@ const Campaign = () => {
     // Đánh dấu là đã chỉnh sửa
     setEdited(true);
     if (!selectedValues || selectedValues.length === 0) {
-      setSelectedGroups(["Nope"]);
+      setSelectedGroups(["N"]);
       // Thực hiện các hành động khi không có giá trị
     } else {
       
@@ -118,14 +118,17 @@ const Campaign = () => {
   };
   
   const handleUpdate = async () => {
+    var Groups = selectedGroups;
+    if (selectedGroups.length === 1 && selectedGroups[0] === "N") {
+      Groups = [];
+    }
     
-  
     // Tạo dữ liệu sẽ gửi lên API
     const updatedTemplate = {
       "campaign_id": campaign.campaign_id,
       "email_id": campaign?.email_id || "",
       "name": campaign.name  || "Không đặt tên",
-      "groups_ids": selectedGroups
+      "groups_ids": Groups
   }
   
     try {
