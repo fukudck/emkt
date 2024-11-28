@@ -13,6 +13,7 @@ import CampaignModify from './components/Dashboard/CampaignDetails';
 import EmailTemplateManagement from './components/Dashboard/EmailTemplateManagement';
 import Contact from './components/Dashboard/Contact';
 import Group from './components/Dashboard/Group';
+import CampaignStatistics from './components/Dashboard/CampaignStatistics'
 
 
 function App() {
@@ -143,6 +144,20 @@ function App() {
                 <div style={{ flex: 1 }}>
                   <Header />
                   <Group />
+                </div>
+              </div>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/statistics"
+          element={
+            <ProtectedRoute>
+              <div style={{ display: 'flex' }}>
+                <Sidebar />
+                <div style={{ flex: 1 }}>
+                  <Header />
+                  <CampaignStatistics />
                 </div>
               </div>
             </ProtectedRoute>

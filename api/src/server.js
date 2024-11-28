@@ -8,6 +8,7 @@ const contactRoutes = require('./routes/contactRoutes');
 const mailRoutes = require('./routes/mailRoutes');
 const campaignRoutes = require('./routes/campaignRoutes');
 const groupRoutes = require('./routes/groupRoutes')
+const statisticsRoutes = require('./routes/statisticsRoutes')
 const app = express();
 
 
@@ -19,6 +20,7 @@ app.use('/api/contacts', contactRoutes);
 app.use('/api/mail', mailRoutes);
 app.use('/api/campaigns', campaignRoutes);
 app.use('/api/groups', groupRoutes);
+app.use('/api/statistics', statisticsRoutes);
 // Xử lý các lỗi không tìm thấy route (404)
 app.use((req, res, next) => {
     res.status(404).json({ message: 'Route not found' });
